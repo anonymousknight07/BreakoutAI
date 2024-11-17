@@ -1,6 +1,11 @@
+![image](https://github.com/user-attachments/assets/dc0587bc-10ad-4974-badd-ea671aa0c451)
+
 # AI Data Extraction Agent
 
 An intelligent data extraction system that combines web searching capabilities with LLM processing to automatically gather and process information from various sources. The system supports both CSV file uploads and Google Sheets integration for seamless data handling.
+
+# Video tutorial 
+Coming soon
 
 ## 🌟 Key Features
 
