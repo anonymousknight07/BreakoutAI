@@ -22,7 +22,7 @@ def display_dashboard():
         
         - **Google Sheet**:
             1. Select the 'Google Sheet' option.
-            2. Enter the **Google Sheet ID** (the unique part of the Google Sheet's URL).
+            2. Enter the **Google Sheet ID** (the unique part of the Google Sheet's URL, it should look like this 'docs.google.com/spreadsheets/d/google_sheet_id/edit').
             3. Ensure your Google Sheet has granted the service account permission to access it.
             4. The data will load, and you can then select a column to run queries on.
         """)
@@ -48,7 +48,13 @@ def display_dashboard():
     elif data_source == "Google Sheet":
         sheet_id = st.text_input("Enter Google Sheet ID")
         if sheet_id:
-            data = connect_to_google_sheet(sheet_id)
+            try:
+                # Unpack the tuple returned by connect_to_google_sheet
+                data, service = connect_to_google_sheet(sheet_id)
+            except Exception as e:
+                st.error(f"Error connecting to Google Sheet: {str(e)}")
+                st.write("Please check your Google Sheets credentials and sheet ID.")
+                return
 
     # Display Data Preview
     if data is not None:
@@ -77,18 +83,39 @@ def display_dashboard():
         if st.button("Run Search"):
             with st.spinner("Searching and extracting..."):
                 results = []
-                for entity in data[selected_column].dropna().unique():
+                # Add progress bar
+                progress_bar = st.progress(0)
+                total_entities = len(data[selected_column].dropna().unique())
+                
+                for idx, entity in enumerate(data[selected_column].dropna().unique()):
                     search_query = query_template.replace("{entity}", entity)
-                    search_results = perform_web_search(search_query)
-                    extracted_info = extract_info_with_llm(entity, search_results, query_template)
-                    results.append({"Entity": entity, "Extracted Info": extracted_info})
+                    try:
+                        search_results = perform_web_search(search_query)
+                        extracted_info = extract_info_with_llm(entity, search_results, query_template)
+                        results.append({"Entity": entity, "Extracted Info": extracted_info})
+                    except Exception as e:
+                        st.warning(f"Error processing {entity}: {str(e)}")
+                        results.append({"Entity": entity, "Extracted Info": "Error during processing"})
+                    
+                    # Update progress bar
+                    progress_bar.progress((idx + 1) / total_entities)
 
                 result_df = pd.DataFrame(results)
                 st.write(result_df)
                 
                 # Download Button for CSV
-                st.download_button("Download CSV", result_df.to_csv(index=False), file_name="results.csv")
+                st.download_button(
+                    "Download Results",
+                    result_df.to_csv(index=False),
+                    file_name="results.csv",
+                    mime="text/csv"
+                )
 
+    # Footer Attribution
+    st.markdown("""
+    ---
+    Made by [Akshat Pandey](https://github.com/anonymousknight07)
+    """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     display_dashboard()

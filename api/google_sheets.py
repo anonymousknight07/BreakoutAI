@@ -16,11 +16,11 @@ def connect_to_google_sheet(sheet_id):
     values = sheet.get("values", [])
     data_df = pd.DataFrame(values[1:], columns=values[0])
     
-    return data_df, service  # Return the service to use for writing back to the sheet
+    return data_df, service
 
 def write_to_google_sheet(service, sheet_id, data, range_name="Sheet1"):
     # Convert the data to the required format for Google Sheets API
-    values = [data.columns.tolist()] + data.values.tolist()  # Include headers
+    values = [data.columns.tolist()] + data.values.tolist()
     body = {
         "values": values
     }
