@@ -245,9 +245,13 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 For support:
 
 1. Check documentation
+   - [How to create google service account](https://cloud.google.com/iam/docs/service-accounts-create)
+   - [Google sheet API](https://developers.google.com/sheets/api/reference/rest)
+   - [Groq AI](https://console.groq.com/docs/overview)
+   - [Serpapi](https://serpapi.com/search-api)
 2. Review existing issues
 3. Create detailed bug reports
-4. Join our community discussions
+
 
 ## 🙏 Acknowledgments
 
