@@ -70,9 +70,7 @@ An intelligent data extraction system that combines web searching capabilities w
 
 1. Clone the repository:
 ```bash 
-
-git clone [your-repository-url] cd ai-data-extraction-agent
-
+git clone https://github.com/anonymousknight07/BreakoutAI.git
 ```
 
 
