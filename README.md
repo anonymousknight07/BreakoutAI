@@ -5,7 +5,7 @@
 An intelligent data extraction system that combines web searching capabilities with LLM processing to automatically gather and process information from various sources. The system supports both CSV file uploads and Google Sheets integration for seamless data handling.
 
 # Video tutorial 
-Coming soon
+[Video walkthrough](https://github.com/user-attachments/assets/c3438020-d9f4-4969-9efd-458ebae10920)
 
 ## 🌟 Key Features
 
